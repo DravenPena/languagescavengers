@@ -7,15 +7,18 @@ import numpy as np
 import keras
 from keras.applications.inception_v3 import decode_predictions
 from keras.applications.inception_v3 import preprocess_input as inception_v3_preprocess_input
-from keras.layers import Input, Dense, Activation, Dropout
-from keras.layers import ZeroPadding2D, MaxPooling2D, AveragePooling2D, Conv2D, BatchNormalization, Flatten
+import tensorflow as tf
+#from keras.layers import Input, Dense, Activation, Dropout
+#from keras.layers import ZeroPadding2D, MaxPooling2D, AveragePooling2D, Conv2D, BatchNormalization, Flatten
 from keras.models import Model
 from keras.preprocessing.image import ImageDataGenerator
 import time
 from tensorflow.python.client import device_lib
-import glob
-from googletrans import Translator
+#import glob
+#from googletrans import Translator
 import threading
+import textblob
+
 
 
 class NN(object):
@@ -38,14 +41,27 @@ class NN(object):
                 if self.kill:
                     print("The user terminated the program\n")
                     exit(0)
-                time.sleep(2)
+                time.sleep(.1)
             else:
                 if self.kill:
                     print("The user terminated the program\n")
                     exit(0)
                 print("predicted: ")
-                print(self.clean_classify(images, filenames))
+                val = (self.clean_classify(images, filenames))
+                print(val)
+                print("translate-spanish: ")
+                print(self.translate(val))
 
+    def translate (self,L):
+        val = []
+        for lm in L:
+            try:
+                blob = textblob.TextBlob(lm)
+                val.append(blob.translate(to="es").string)
+            except textblob.exceptions.NotTranslated:
+                val.append(lm)
+        return val
+    
     def clean_classify(self, images, filenames):
             preds = self.base_model.predict(images)
             preds = decode_predictions(preds, top=10)[0]
@@ -136,5 +152,7 @@ def load_images(folder, img_size):
         return images, filenames
 
 if __name__ == "__main__":
+    config = tf.ConfigProto(device_count={"CPU": 4})
+    keras.backend.tensorflow_backend.set_session(tf.Session(config=config))
     classifier = NN()
     classifier.run()

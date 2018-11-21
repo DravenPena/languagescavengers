@@ -14,7 +14,7 @@ from keras.preprocessing.image import ImageDataGenerator
 import time
 from tensorflow.python.client import device_lib
 import glob
-from googletrans import Translator
+#from googletrans import Translator
 import threading
 
 kill = False
