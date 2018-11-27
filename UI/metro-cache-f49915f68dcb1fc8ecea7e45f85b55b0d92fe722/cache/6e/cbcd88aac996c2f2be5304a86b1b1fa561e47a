@@ -1,0 +1,8 @@
+__d(function (global, _require, module, exports, _dependencyMap) {
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = {
+        Dictionary: ["Pelota de Tenis", "Botella de Agua", "Espátula", "Escritorio", "Plátano", "Freidora", "Teléfono", "Bota", "Copa", "Pala", "Martillo", "Flor"]
+    };
+});
