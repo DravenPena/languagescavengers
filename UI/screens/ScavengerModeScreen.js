@@ -118,9 +118,10 @@ export default class ScavengerMode extends React.Component {
         return index;
     }
 
-    handleCameraClick () {
+    handleCameraClick = async () =>  {
         result = getPermsAsync();
-        takePhotoAsync();
+        let response = await takePhotoAsync();
+        console.log(response);
         this.setState({
             cameraEnabled: false,
             result: true,
@@ -208,7 +209,7 @@ async function takePhotoAsync(){
     // Assume "photo" is the name of the form field the server expects
     formData.append('photo', { uri: localUri, name: filename, type });
 
-    return await fetch('http://ac33f564.ngrok.io/post', {
+    return await fetch('http://aafa934d.ngrok.io/post', {
         method: 'POST',
         body: formData,
         header: {
