@@ -170,6 +170,10 @@ async function getPermsAsync(){
 }
 
 async function takePhotoAsync(){
+	/*Take Photo Async
+	* Uses Imagepicker to take a photo with camera
+	* Sends the photo via post request to server to get analyzed
+	* Retrieves data back from get request */
     let result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
@@ -190,15 +194,16 @@ async function takePhotoAsync(){
 
     // Assume "photo" is the name of the form field the server expects
     formData.append('photo', { uri: localUri, name: filename, type });
-
-    const response = await fetch('http://af2f452e.ngrok.io/post', {
+	/*Post request*/
+    const response = await fetch('http://fbd9ce68.ngrok.io/post', {
         method: 'POST',
         body: formData,
         header: {
             'contentt-type': 'multipart/form-data',
         },
     });
-	fetch('http://af2f452e.ngrok.io/')
+	/*Get request*/
+	fetch('http://fbd9ce68.ngrok.io/')
 		.then(function(r){
 			return r.blob();
 		})
@@ -206,13 +211,13 @@ async function takePhotoAsync(){
 			var objectURL = URL.createObjectURL(blob);
 			var myReader = new FileReader();
 			myReader.onloadend = function(e){
-				console.log(myReader.result);
+				console.log(myReader.result);//Prints the data that was received from the get request
 			};
 			myReader.readAsText(blob);
 
 		});
 
-	return response;
+	return response;//state is over, save data before leaving this function
 
 
 }

@@ -83,6 +83,7 @@ class NN(object):
                 text = labels[i]
                 blob = textblob.TextBlob(text)
                 value = blob.translate(to="es")
+                print( value )
             except textblob.exceptions.NotTranslated:
                 value = text
             translation.append(value)

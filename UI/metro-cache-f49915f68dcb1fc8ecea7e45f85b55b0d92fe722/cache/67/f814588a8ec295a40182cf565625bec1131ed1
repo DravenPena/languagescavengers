@@ -541,7 +541,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             type: type
                         });
                         _context6.next = 13;
-                        return regeneratorRuntime.awrap(fetch('http://af2f452e.ngrok.io/post', {
+                        return regeneratorRuntime.awrap(fetch('http://fbd9ce68.ngrok.io/post', {
                             method: 'POST',
                             body: formData,
                             header: {
@@ -551,7 +551,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
                     case 13:
                         response = _context6.sent;
-                        fetch('http://af2f452e.ngrok.io/').then(function (r) {
+                        fetch('http://fbd9ce68.ngrok.io/').then(function (r) {
                             return r.blob();
                         }).then(function (blob) {
                             var objectURL = URL.createObjectURL(blob);
