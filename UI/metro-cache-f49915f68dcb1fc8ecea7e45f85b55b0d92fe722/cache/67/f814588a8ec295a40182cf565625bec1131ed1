@@ -35,13 +35,13 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
     var _ButtonSkip2 = _interopRequireDefault(_ButtonSkip);
 
-    var _ExpoCamera = _require(_dependencyMap[8], "../components/ExpoCamera");
-
-    var _ExpoCamera2 = _interopRequireDefault(_ExpoCamera);
-
-    var _Card = _require(_dependencyMap[9], "../components/Card");
+    var _Card = _require(_dependencyMap[8], "../components/Card");
 
     var _Card2 = _interopRequireDefault(_Card);
+
+    var _vocabDictionary = _require(_dependencyMap[9], "../data/vocabDictionary");
+
+    var _vocabDictionary2 = _interopRequireDefault(_vocabDictionary);
 
     function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,14 +74,153 @@ __d(function (global, _require, module, exports, _dependencyMap) {
         _inherits(ScavengerMode, _React$Component);
 
         function ScavengerMode(props) {
+            var _this2 = this;
+
             _classCallCheck(this, ScavengerMode);
 
             var _this = _possibleConstructorReturn(this, (ScavengerMode.__proto__ || Object.getPrototypeOf(ScavengerMode)).call(this, props));
 
+            _this.updateUserData = function _callee() {
+                var currentWord, score;
+                return regeneratorRuntime.async(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return regeneratorRuntime.awrap(_this.getCurrentWord());
+
+                            case 2:
+                                currentWord = _context.sent;
+                                _context.next = 5;
+                                return regeneratorRuntime.awrap(_this.getScore());
+
+                            case 5:
+                                score = _context.sent;
+
+                                _this.setState({
+                                    currentWord: currentWord,
+                                    score: score
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, null, _this2);
+            };
+
+            _this.getScore = function _callee2() {
+                var value;
+                return regeneratorRuntime.async(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.prev = 0;
+                                _context2.next = 3;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('ScavengerModeScore'));
+
+                            case 3:
+                                value = _context2.sent;
+
+                                if (!(value !== null)) {
+                                    _context2.next = 8;
+                                    break;
+                                }
+
+                                return _context2.abrupt("return", value);
+
+                            case 8:
+                                _context2.next = 10;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookScore', '0'));
+
+                            case 10:
+                                return _context2.abrupt("return", 0);
+
+                            case 11:
+                                _context2.next = 17;
+                                break;
+
+                            case 13:
+                                _context2.prev = 13;
+                                _context2.t0 = _context2["catch"](0);
+                                alert("here");
+                                return _context2.abrupt("return");
+
+                            case 17:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, null, _this2, [[0, 13]]);
+            };
+
+            _this.getCurrentWord = function _callee3() {
+                var value, word;
+                return regeneratorRuntime.async(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.prev = 0;
+                                _context3.next = 3;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('ScavengerModeCurrentWord'));
+
+                            case 3:
+                                value = _context3.sent;
+
+                                if (!(value !== null)) {
+                                    _context3.next = 8;
+                                    break;
+                                }
+
+                                return _context3.abrupt("return", value);
+
+                            case 8:
+                                word = _vocabDictionary2.default.Dictionary[0];
+                                _context3.next = 11;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookCurrentWord', word));
+
+                            case 11:
+                                return _context3.abrupt("return", word);
+
+                            case 12:
+                                _context3.next = 18;
+                                break;
+
+                            case 14:
+                                _context3.prev = 14;
+                                _context3.t0 = _context3["catch"](0);
+                                alert(_context3.t0);
+                                return _context3.abrupt("return");
+
+                            case 18:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }
+                }, null, _this2, [[0, 14]]);
+            };
+
+            _this.handleSkipClick = function _callee4() {
+                return regeneratorRuntime.async(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                _this.setState({
+                                    currentWord: 'Silla'
+                                });
+
+                            case 1:
+                            case "end":
+                                return _context4.stop();
+                        }
+                    }
+                }, null, _this2);
+            };
+
             _this.state = {
-                overallScore: 300,
-                roundScore: 10,
-                currentWord: 'Lapiz',
+                score: 0,
+                currentWord: '',
                 cameraEnabled: false,
                 result: false
             };
@@ -91,17 +230,15 @@ __d(function (global, _require, module, exports, _dependencyMap) {
         }
 
         _createClass(ScavengerMode, [{
-            key: "handleSkipClick",
-            value: function handleSkipClick() {
-                this.setState({
-                    currentWord: 'Silla'
-                });
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                this.updateUserData();
             }
         }, {
             key: "handleCameraClick",
             value: function handleCameraClick() {
                 result = getPermsAsync();
-                takePhotoAsync();
+                results = takePhotoAsync();
                 this.setState({
                     cameraEnabled: false,
                     result: true
@@ -118,7 +255,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         style: styles.container,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 72
+                            lineNumber: 116
                         }
                     },
                     _react3.default.createElement(
@@ -126,7 +263,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 73
+                                lineNumber: 117
                             }
                         },
                         _react3.default.createElement(
@@ -135,7 +272,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Header,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 74
+                                    lineNumber: 118
                                 }
                             },
                             _react3.default.createElement(_vectorIcons.FontAwesome, {
@@ -144,7 +281,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.MagnifyingGlass,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 75
+                                    lineNumber: 119
                                 }
                             }),
                             _react3.default.createElement(
@@ -153,7 +290,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.TileHeaderText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 76
+                                        lineNumber: 120
                                     }
                                 },
                                 " Scavenger Mode "
@@ -165,7 +302,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.SubHeader,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 78
+                                    lineNumber: 122
                                 }
                             },
                             _react3.default.createElement(
@@ -174,10 +311,10 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.SubText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 79
+                                        lineNumber: 123
                                     }
                                 },
-                                " Overall Score "
+                                " Overall Score: "
                             ),
                             _react3.default.createElement(
                                 _reactNative.Text,
@@ -185,11 +322,11 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.CurrentWord,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 80
+                                        lineNumber: 124
                                     }
                                 },
                                 " ",
-                                this.state.overallScore,
+                                this.state.score,
                                 " points"
                             )
                         ),
@@ -199,7 +336,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.SubHeader,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 82
+                                    lineNumber: 126
                                 }
                             },
                             _react3.default.createElement(
@@ -208,10 +345,10 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.SubText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 83
+                                        lineNumber: 127
                                     }
                                 },
-                                " Round Score "
+                                " Current Word: "
                             ),
                             _react3.default.createElement(
                                 _reactNative.Text,
@@ -219,41 +356,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.CurrentWord,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 84
-                                    }
-                                },
-                                " ",
-                                this.state.roundScore,
-                                " points"
-                            )
-                        ),
-                        _react3.default.createElement(
-                            _reactNative.View,
-                            {
-                                style: styles.SubHeader,
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 86
-                                }
-                            },
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.SubText,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 87
-                                    }
-                                },
-                                " Current Word "
-                            ),
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.CurrentWord,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 88
+                                        lineNumber: 128
                                     }
                                 },
                                 " ",
@@ -268,21 +371,21 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             style: styles.Options,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 91
+                                lineNumber: 131
                             }
                         },
                         _react3.default.createElement(_ButtonCamera2.default, {
                             clickHandler: this.handleCameraClick,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 92
+                                lineNumber: 132
                             }
                         }),
                         _react3.default.createElement(_ButtonSkip2.default, {
                             clickHandler: this.handleSkipClick,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 93
+                                lineNumber: 133
                             }
                         })
                     )
@@ -301,7 +404,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             style: styles.container,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 103
+                                lineNumber: 143
                             }
                         },
                         _react3.default.createElement(
@@ -309,19 +412,29 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 104
+                                    lineNumber: 144
                                 }
                             },
                             _react3.default.createElement(_vectorIcons.FontAwesome, {
                                 name: "check",
                                 size: 60,
-                                style: styles.Camera,
+                                style: styles.Check,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 105
+                                    lineNumber: 145
                                 }
                             }),
-                            "Correct"
+                            _react3.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    style: styles.TileHeaderText,
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 146
+                                    }
+                                },
+                                " Correct "
+                            )
                         ),
                         _react3.default.createElement(
                             _reactNative.View,
@@ -329,21 +442,21 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Options,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 108
+                                    lineNumber: 148
                                 }
                             },
                             _react3.default.createElement(_ButtonCamera2.default, {
                                 clickHandler: this.handleCameraClick,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 109
+                                    lineNumber: 149
                                 }
                             }),
                             _react3.default.createElement(_ButtonSkip2.default, {
                                 clickHandler: this.handleSkipClick,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 110
+                                    lineNumber: 150
                                 }
                             })
                         )
@@ -365,61 +478,60 @@ __d(function (global, _require, module, exports, _dependencyMap) {
     function getPermsAsync() {
         var _ref, status;
 
-        return regeneratorRuntime.async(function getPermsAsync$(_context) {
+        return regeneratorRuntime.async(function getPermsAsync$(_context5) {
             while (1) {
-                switch (_context.prev = _context.next) {
+                switch (_context5.prev = _context5.next) {
                     case 0:
-                        _context.next = 2;
+                        _context5.next = 2;
                         return regeneratorRuntime.awrap(_expo.Permissions.askAsync(_expo.Permissions.CAMERA, _expo.Permissions.CAMERA_ROLL));
 
                     case 2:
-                        _ref = _context.sent;
+                        _ref = _context5.sent;
                         status = _ref.status;
 
                         if (!(status === 'granted')) {
-                            _context.next = 8;
+                            _context5.next = 8;
                             break;
                         }
 
-                        return _context.abrupt("return", status);
+                        return _context5.abrupt("return", status);
 
                     case 8:
-                        return _context.abrupt("return", 69);
+                        return _context5.abrupt("return", 69);
 
                     case 9:
                     case "end":
-                        return _context.stop();
+                        return _context5.stop();
                 }
             }
         }, null, this);
     }
 
     function takePhotoAsync() {
-        var result, localUri, filename, match, type, formData;
-        return regeneratorRuntime.async(function takePhotoAsync$(_context2) {
+        var result, localUri, filename, match, type, formData, response;
+        return regeneratorRuntime.async(function takePhotoAsync$(_context6) {
             while (1) {
-                switch (_context2.prev = _context2.next) {
+                switch (_context6.prev = _context6.next) {
                     case 0:
-                        _context2.next = 2;
+                        _context6.next = 2;
                         return regeneratorRuntime.awrap(_expo.ImagePicker.launchCameraAsync({
                             allowsEditing: true,
                             aspect: [4, 3]
                         }));
 
                     case 2:
-                        result = _context2.sent;
+                        result = _context6.sent;
 
                         if (!result.cancelled) {
-                            _context2.next = 5;
+                            _context6.next = 5;
                             break;
                         }
 
-                        return _context2.abrupt("return");
+                        return _context6.abrupt("return");
 
                     case 5:
                         localUri = result.uri;
                         filename = localUri.split('/').pop();
-                        console.log("from result", result, localUri, filename);
                         match = /\.(\w+)$/.exec(filename);
                         type = match ? "image/" + match[1] : "image";
                         formData = new FormData();
@@ -428,22 +540,34 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             name: filename,
                             type: type
                         });
-                        console.log(formData);
-                        _context2.next = 15;
-                        return regeneratorRuntime.awrap(fetch('http://192.168.1.12:8080/post', {
+                        _context6.next = 13;
+                        return regeneratorRuntime.awrap(fetch('http://af2f452e.ngrok.io/post', {
                             method: 'POST',
                             body: formData,
                             header: {
-                                'content-type': 'multipart/form-data'
+                                'contentt-type': 'multipart/form-data'
                             }
                         }));
 
-                    case 15:
-                        return _context2.abrupt("return", _context2.sent);
+                    case 13:
+                        response = _context6.sent;
+                        fetch('http://af2f452e.ngrok.io/').then(function (r) {
+                            return r.blob();
+                        }).then(function (blob) {
+                            var objectURL = URL.createObjectURL(blob);
+                            var myReader = new FileReader();
+
+                            myReader.onloadend = function (e) {
+                                console.log(myReader.result);
+                            };
+
+                            myReader.readAsText(blob);
+                        });
+                        return _context6.abrupt("return", response);
 
                     case 16:
                     case "end":
-                        return _context2.stop();
+                        return _context6.stop();
                 }
             }
         }, null, this);
@@ -472,6 +596,10 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             padding: 10,
             color: 'rgba(96,100,109, 1)'
         },
+        Check: {
+            padding: 10,
+            color: 'rgba(96,100,109, 1)'
+        },
         SubHeader: {
             flex: 1,
             flexDirection: 'row'
@@ -485,8 +613,8 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             fontWeight: 'bold'
         },
         CurrentWord: {
-            fontSize: 25,
-            padding: 10,
+            fontSize: 20,
+            paddingTop: 10,
             color: 'rgba(96,100,109, 1)',
             lineHeight: 24,
             textAlign: 'left',

@@ -78,7 +78,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         style: styles.container,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 22
+                            lineNumber: 24
                         }
                     },
                     _react3.default.createElement(
@@ -86,7 +86,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 23
+                                lineNumber: 25
                             }
                         },
                         _react3.default.createElement(
@@ -95,7 +95,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.earthcontainer,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 24
+                                    lineNumber: 26
                                 }
                             },
                             _react3.default.createElement(_reactNative.Image, {
@@ -103,7 +103,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 source: _require(_dependencyMap[7], '../assets/LanguageScavengersWorld.png'),
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 25
+                                    lineNumber: 27
                                 }
                             }),
                             _react3.default.createElement(
@@ -112,7 +112,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.headerSubText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 29
+                                        lineNumber: 31
                                     }
                                 },
                                 " Let's Find New Words"
@@ -122,21 +122,21 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             navigation: this.props.navigation,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 31
+                                lineNumber: 33
                             }
                         }),
                         _react3.default.createElement(_WordBookTile2.default, {
                             navigation: this.props.navigation,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 32
+                                lineNumber: 34
                             }
                         }),
                         _react3.default.createElement(_SettingTile2.default, {
                             navigation: this.props.navigation,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 33
+                                lineNumber: 35
                             }
                         })
                     )

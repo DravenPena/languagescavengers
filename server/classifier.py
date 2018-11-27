@@ -85,7 +85,7 @@ class NN(object):
                 value = blob.translate(to="es")
             except textblob.exceptions.NotTranslated:
                 value = text
-            translation.append(value.string)
+            translation.append(value)
         return translation
 
 

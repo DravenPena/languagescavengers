@@ -50,8 +50,8 @@ __d(function (global, _require, module, exports, _dependencyMap) {
     function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
     var _components = {
-        ScavengerMode: {
-            displayName: "ScavengerMode"
+        WordBookScreen: {
+            displayName: "WordBookScreen"
         }
     };
 
@@ -68,13 +68,13 @@ __d(function (global, _require, module, exports, _dependencyMap) {
         };
     }
 
-    var ScavengerMode = _wrapComponent("ScavengerMode")((_temp = _class = function (_React$Component) {
-        _inherits(ScavengerMode, _React$Component);
+    var WordBookScreen = _wrapComponent("WordBookScreen")((_temp = _class = function (_React$Component) {
+        _inherits(WordBookScreen, _React$Component);
 
-        function ScavengerMode(props) {
-            _classCallCheck(this, ScavengerMode);
+        function WordBookScreen(props) {
+            _classCallCheck(this, WordBookScreen);
 
-            var _this = _possibleConstructorReturn(this, (ScavengerMode.__proto__ || Object.getPrototypeOf(ScavengerMode)).call(this, props));
+            var _this = _possibleConstructorReturn(this, (WordBookScreen.__proto__ || Object.getPrototypeOf(WordBookScreen)).call(this, props));
 
             _this.state = {
                 overallScore: 300,
@@ -88,7 +88,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             return _this;
         }
 
-        _createClass(ScavengerMode, [{
+        _createClass(WordBookScreen, [{
             key: "handleSkipClick",
             value: function handleSkipClick() {
                 this.setState({
@@ -115,7 +115,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                 var result = void 0;
 
                 var screen = _react3.default.createElement(
-                    _reactNative.ScrollView,
+                    _reactNative.View,
                     {
                         style: styles.container,
                         __source: {
@@ -124,169 +124,15 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         }
                     },
                     _react3.default.createElement(
-                        _CardScroll2.default,
+                        _reactNative.Text,
                         {
+                            style: styles.TileHeaderText,
                             __source: {
                                 fileName: _jsxFileName,
                                 lineNumber: 57
                             }
                         },
-                        _react3.default.createElement(
-                            _reactNative.View,
-                            {
-                                style: styles.Header,
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 58
-                                }
-                            },
-                            _react3.default.createElement(_vectorIcons.FontAwesome, {
-                                name: "search",
-                                size: 30,
-                                style: styles.MagnifyingGlass,
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 59
-                                }
-                            }),
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.TileHeaderText,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 60
-                                    }
-                                },
-                                " Scavenger Mode "
-                            )
-                        ),
-                        _react3.default.createElement(
-                            _reactNative.View,
-                            {
-                                style: styles.SubHeader,
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 62
-                                }
-                            },
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.SubText,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 63
-                                    }
-                                },
-                                " Overall Score "
-                            ),
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.CurrentWord,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 64
-                                    }
-                                },
-                                " ",
-                                this.state.overallScore,
-                                " points"
-                            )
-                        ),
-                        _react3.default.createElement(
-                            _reactNative.View,
-                            {
-                                style: styles.SubHeader,
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 66
-                                }
-                            },
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.SubText,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 67
-                                    }
-                                },
-                                " Round Score "
-                            ),
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.CurrentWord,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 68
-                                    }
-                                },
-                                " ",
-                                this.state.roundScore,
-                                " points"
-                            )
-                        ),
-                        _react3.default.createElement(
-                            _reactNative.View,
-                            {
-                                style: styles.SubHeader,
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 70
-                                }
-                            },
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.SubText,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 71
-                                    }
-                                },
-                                " Current Word "
-                            ),
-                            _react3.default.createElement(
-                                _reactNative.Text,
-                                {
-                                    style: styles.CurrentWord,
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 72
-                                    }
-                                },
-                                " ",
-                                this.state.currentWord,
-                                " "
-                            )
-                        )
-                    ),
-                    _react3.default.createElement(
-                        _reactNative.View,
-                        {
-                            style: styles.Options,
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 75
-                            }
-                        },
-                        _react3.default.createElement(_ButtonCamera2.default, {
-                            clickHandler: this.handleCameraClick,
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 76
-                            }
-                        }),
-                        _react3.default.createElement(_ButtonSkip2.default, {
-                            clickHandler: this.handleSkipClick,
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 77
-                            }
-                        })
+                        " Word Books"
                     )
                 );
 
@@ -295,7 +141,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         clickHandler: this.handleCameraClick,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 83
+                            lineNumber: 62
                         }
                     });
                 }
@@ -309,7 +155,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             style: styles.container,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 88
+                                lineNumber: 67
                             }
                         },
                         _react3.default.createElement(
@@ -317,7 +163,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 89
+                                    lineNumber: 68
                                 }
                             },
                             _react3.default.createElement(_vectorIcons.FontAwesome, {
@@ -326,7 +172,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Camera,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 90
+                                    lineNumber: 69
                                 }
                             }),
                             "Correct"
@@ -337,21 +183,21 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Options,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 93
+                                    lineNumber: 72
                                 }
                             },
                             _react3.default.createElement(_ButtonCamera2.default, {
                                 clickHandler: this.handleCameraClick,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 94
+                                    lineNumber: 73
                                 }
                             }),
                             _react3.default.createElement(_ButtonSkip2.default, {
                                 clickHandler: this.handleSkipClick,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 95
+                                    lineNumber: 74
                                 }
                             })
                         )
@@ -363,12 +209,12 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             }
         }]);
 
-        return ScavengerMode;
+        return WordBookScreen;
     }(_react3.default.Component), _class.navigationOptions = {
         headerTransparent: true
     }, _temp));
 
-    exports.default = ScavengerMode;
+    exports.default = WordBookScreen;
 
     var styles = _reactNative.StyleSheet.create({
         container: {

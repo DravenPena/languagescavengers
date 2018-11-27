@@ -70,7 +70,7 @@ export default class ScavengerMode extends React.Component {
               // We have data!!
               return value;
             } else {
-                await AsyncStorage.setItem('ScavengerModeScore', '0');
+                await AsyncStorage.setItem('WordBookScore', '0');
                 return 0;
             }
         } catch (error) {
@@ -83,11 +83,10 @@ export default class ScavengerMode extends React.Component {
         try {
             const value = await AsyncStorage.getItem('ScavengerModeCurrentWord');
             if (value !== null){
-                let index = parseInt(value);
-                return vocabDictionary.Dictionary[index];
+                return value;
             } else {
                 let word = vocabDictionary.Dictionary[0];
-                await AsyncStorage.setItem('ScavengerModeCurrentWord', '0');
+                await AsyncStorage.setItem('WordBookCurrentWord', word);
                 return word;
             }
         } catch (error) {
@@ -97,30 +96,14 @@ export default class ScavengerMode extends React.Component {
     }
 
     handleSkipClick = async () => {
-        let index = await this.incrementCurrentWord();
-        console.log(index);
         this.setState({
-            currentWord: vocabDictionary.Dictionary[index],
+            currentWord: 'Silla',
         })
     }
 
-    incrementCurrentWord = async () => {
-        const value = await AsyncStorage.getItem('ScavengerModeCurrentWord');
-        let index = 0;
-        if (value !== null) {
-            index = parseInt(value);
-            // index = (index + 1) % vocabDictionary.Dictionary.length
-            index = Math.floor(Math.random()*vocabDictionary.Dictionary.length)
-            await AsyncStorage.setItem('ScavengerModeCurerntWord', index.toString())
-        } else {
-            await this.getCurrentWord();
-        }
-        return index;
-    }
-
-    handleCameraClick () {
+    handleCameraClick() {
         result = getPermsAsync();
-        takePhotoAsync();
+        results = takePhotoAsync();
         this.setState({
             cameraEnabled: false,
             result: true,
@@ -197,7 +180,7 @@ async function takePhotoAsync(){
     }
     let localUri = result.uri;
     let filename = localUri.split('/').pop();
-    
+
     // Infer the type of the image
     let match = /\.(\w+)$/.exec(filename);
     let type = match ? `image/${match[1]}` : `image`;
@@ -208,16 +191,31 @@ async function takePhotoAsync(){
     // Assume "photo" is the name of the form field the server expects
     formData.append('photo', { uri: localUri, name: filename, type });
 
-    return await fetch('http://ac33f564.ngrok.io/post', {
+    const response = await fetch('http://af2f452e.ngrok.io/post', {
         method: 'POST',
         body: formData,
         header: {
             'contentt-type': 'multipart/form-data',
         },
     });
+	fetch('http://af2f452e.ngrok.io/')
+		.then(function(r){
+			return r.blob();
+		})
+		.then(function(blob){
+			var objectURL = URL.createObjectURL(blob);
+			var myReader = new FileReader();
+			myReader.onloadend = function(e){
+				console.log(myReader.result);
+			};
+			myReader.readAsText(blob);
+
+		});
+
+	return response;
+
 
 }
-
 const styles =  StyleSheet.create({
     container: {
         flex: 1,

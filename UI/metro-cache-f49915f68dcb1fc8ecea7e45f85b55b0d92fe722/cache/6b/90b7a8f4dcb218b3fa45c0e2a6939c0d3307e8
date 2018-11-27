@@ -23,6 +23,10 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
     var _Card2 = _interopRequireDefault(_Card);
 
+    var _vocabDictionary = _require(_dependencyMap[5], "../data/vocabDictionary");
+
+    var _vocabDictionary2 = _interopRequireDefault(_vocabDictionary);
+
     function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -53,27 +57,162 @@ __d(function (global, _require, module, exports, _dependencyMap) {
     var ScavengerModeTile = _wrapComponent("ScavengerModeTile")(function (_React$Component) {
         _inherits(ScavengerModeTile, _React$Component);
 
-        function ScavengerModeTile() {
+        function ScavengerModeTile(props) {
+            var _this2 = this;
+
             _classCallCheck(this, ScavengerModeTile);
 
-            return _possibleConstructorReturn(this, (ScavengerModeTile.__proto__ || Object.getPrototypeOf(ScavengerModeTile)).apply(this, arguments));
+            var _this = _possibleConstructorReturn(this, (ScavengerModeTile.__proto__ || Object.getPrototypeOf(ScavengerModeTile)).call(this, props));
+
+            _this.updateUserData = function _callee() {
+                var currentWord, score;
+                return regeneratorRuntime.async(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return regeneratorRuntime.awrap(_this.getCurrentWord());
+
+                            case 2:
+                                currentWord = _context.sent;
+                                _context.next = 5;
+                                return regeneratorRuntime.awrap(_this.getScore());
+
+                            case 5:
+                                score = _context.sent;
+
+                                _this.setState({
+                                    currentWord: currentWord,
+                                    score: score
+                                });
+
+                            case 7:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, null, _this2);
+            };
+
+            _this.getScore = function _callee2() {
+                var value;
+                return regeneratorRuntime.async(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.prev = 0;
+                                _context2.next = 3;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('WordBookScore'));
+
+                            case 3:
+                                value = _context2.sent;
+
+                                if (!(value !== null)) {
+                                    _context2.next = 8;
+                                    break;
+                                }
+
+                                return _context2.abrupt("return", value);
+
+                            case 8:
+                                _context2.next = 10;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookScore', '0'));
+
+                            case 10:
+                                return _context2.abrupt("return", 0);
+
+                            case 11:
+                                _context2.next = 17;
+                                break;
+
+                            case 13:
+                                _context2.prev = 13;
+                                _context2.t0 = _context2["catch"](0);
+                                alert(_context2.t0);
+                                return _context2.abrupt("return");
+
+                            case 17:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, null, _this2, [[0, 13]]);
+            };
+
+            _this.getCurrentWord = function _callee3() {
+                var value, index, word;
+                return regeneratorRuntime.async(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.prev = 0;
+                                _context3.next = 3;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('WordBookCurrentWord'));
+
+                            case 3:
+                                value = _context3.sent;
+
+                                if (!(value !== null)) {
+                                    _context3.next = 9;
+                                    break;
+                                }
+
+                                index = parseInt(value);
+                                return _context3.abrupt("return", _vocabDictionary2.default.Dictionary[index]);
+
+                            case 9:
+                                word = _vocabDictionary2.default.Dictionary[0];
+                                _context3.next = 12;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookCurrentWord', '0'));
+
+                            case 12:
+                                return _context3.abrupt("return", word);
+
+                            case 13:
+                                _context3.next = 19;
+                                break;
+
+                            case 15:
+                                _context3.prev = 15;
+                                _context3.t0 = _context3["catch"](0);
+                                alert(_context3.t0);
+                                return _context3.abrupt("return");
+
+                            case 19:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }
+                }, null, _this2, [[0, 15]]);
+            };
+
+            _this.state = {
+                currentWord: '',
+                score: 0
+            };
+            return _this;
         }
 
         _createClass(ScavengerModeTile, [{
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                this.updateUserData();
+            }
+        }, {
             key: "render",
             value: function render() {
-                var _this2 = this;
+                var _this3 = this;
 
                 return _react3.default.createElement(
                     _reactNative.TouchableHighlight,
                     {
                         onPress: function onPress() {
-                            return _this2.props.navigation.navigate('ScavengerMode');
+                            return _this3.props.navigation.navigate('ScavengerMode');
                         },
                         underlayColor: "white",
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 18
+                            lineNumber: 74
                         }
                     },
                     _react3.default.createElement(
@@ -81,7 +220,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 22
+                                lineNumber: 78
                             }
                         },
                         _react3.default.createElement(
@@ -90,7 +229,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Header,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 23
+                                    lineNumber: 79
                                 }
                             },
                             _react3.default.createElement(_vectorIcons.FontAwesome, {
@@ -99,7 +238,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.MagnifyingGlass,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 24
+                                    lineNumber: 80
                                 }
                             }),
                             _react3.default.createElement(
@@ -108,7 +247,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.TileHeaderText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 25
+                                        lineNumber: 81
                                     }
                                 },
                                 " Scavenger Mode "
@@ -120,30 +259,76 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.SubHeader,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 27
+                                    lineNumber: 83
                                 }
                             },
                             _react3.default.createElement(
-                                _reactNative.Text,
+                                _reactNative.View,
                                 {
-                                    style: styles.SubText,
+                                    style: styles.Data,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 28
+                                        lineNumber: 84
                                     }
                                 },
-                                " Current Word  "
+                                _react3.default.createElement(
+                                    _reactNative.Text,
+                                    {
+                                        style: styles.SubText,
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 85
+                                        }
+                                    },
+                                    " Current Word  "
+                                ),
+                                _react3.default.createElement(
+                                    _reactNative.Text,
+                                    {
+                                        style: styles.userData,
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 86
+                                        }
+                                    },
+                                    " ",
+                                    this.state.currentWord,
+                                    " "
+                                )
                             ),
                             _react3.default.createElement(
-                                _reactNative.Text,
+                                _reactNative.View,
                                 {
-                                    style: styles.SubText,
+                                    style: styles.Data,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 29
+                                        lineNumber: 88
                                     }
                                 },
-                                " Overall Score  "
+                                _react3.default.createElement(
+                                    _reactNative.Text,
+                                    {
+                                        style: styles.SubText,
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 89
+                                        }
+                                    },
+                                    " Overall Score  "
+                                ),
+                                _react3.default.createElement(
+                                    _reactNative.Text,
+                                    {
+                                        style: styles.userData,
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 90
+                                        }
+                                    },
+                                    " ",
+                                    this.state.score,
+                                    " "
+                                )
                             )
                         )
                     )
@@ -183,6 +368,14 @@ __d(function (global, _require, module, exports, _dependencyMap) {
         SubText: {
             fontSize: 17,
             padding: 10,
+            color: 'rgba(96,100,109, 1)',
+            lineHeight: 24,
+            textAlign: 'left',
+            fontWeight: 'bold'
+        },
+        userData: {
+            fontSize: 15,
+            paddingLeft: 12,
             color: 'rgba(96,100,109, 1)',
             lineHeight: 24,
             textAlign: 'left',

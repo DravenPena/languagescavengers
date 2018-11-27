@@ -65,7 +65,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                     {
                         style: styles.container,
                         onPress: function onPress() {
-                            return _this2.props.this.props.clickHandler();
+                            return _this2.props.clickHandler();
                         },
                         underlayColor: "white",
                         __source: {
@@ -83,7 +83,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             }
                         },
                         _react3.default.createElement(_vectorIcons.FontAwesome, {
-                            name: "arrow-right",
+                            name: "random",
                             size: 60,
                             style: styles.Arrow,
                             __source: {
