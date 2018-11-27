@@ -23,14 +23,18 @@ import {
     TouchableOpacity,
     StyleSheet,
     AsyncStorage,
+    Animated,
+    Easing,
 } from 'react-native';
 import { Permissions, ImagePicker } from 'expo';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import CardScroll from '../components/CardScroll';
 import ButtonCamera from '../components/ButtonCamera';
 import ButtonSkip from '../components/ButtonSkip';
+import ButtonNextWord from '../components/ButtonNextWord';
 import Card from '../components/Card';
 import vocabDictionary from '../data/vocabDictionary';
+import axios from 'axios';
 
 export default class ScavengerMode extends React.Component {
 
@@ -38,12 +42,15 @@ export default class ScavengerMode extends React.Component {
         super(props);
         this.state = {
             score: 0,
+            previousWordIndex: 0,
             currentWord: '',
-            cameraEnabled: false,
-            result: false,
+            correct: false,
+            incorrect: false,
         };
         this.handleCameraClick = this.handleCameraClick.bind(this);
         this.handleSkipClick = this.handleSkipClick.bind(this);
+        this.handleNextButton = this.handleNextButton.bind(this);
+        this.spinValue = new Animated.Value(0)
     };
 
     static navigationOptions = {
@@ -68,25 +75,25 @@ export default class ScavengerMode extends React.Component {
             const value = await AsyncStorage.getItem('ScavengerModeScore');
             if (value !== null) {
               // We have data!!
-              return value;
+              return parseInt(value);
             } else {
                 await AsyncStorage.setItem('ScavengerModeScore', '0');
                 return 0;
             }
         } catch (error) {
-            alert("here");
+            alert(error);
             return;
         }
     }
 
     getCurrentWord = async () => {
         try {
-            const value = await AsyncStorage.getItem('ScavengerModeCurrentWord');
+            let value = await AsyncStorage.getItem('ScavengerModeCurrentWord');
             if (value !== null){
                 let index = parseInt(value);
-                return vocabDictionary.Dictionary[index];
+                return vocabDictionary.DictionarySpanish[index];
             } else {
-                let word = vocabDictionary.Dictionary[0];
+                let word = vocabDictionary.DictionarySpanish[0];
                 await AsyncStorage.setItem('ScavengerModeCurrentWord', '0');
                 return word;
             }
@@ -98,38 +105,87 @@ export default class ScavengerMode extends React.Component {
 
     handleSkipClick = async () => {
         let index = await this.incrementCurrentWord();
-        console.log(index);
         this.setState({
-            currentWord: vocabDictionary.Dictionary[index],
+            currentWord: vocabDictionary.DictionarySpanish[index],
         })
     }
 
     incrementCurrentWord = async () => {
-        const value = await AsyncStorage.getItem('ScavengerModeCurrentWord');
+        let value = await AsyncStorage.getItem('ScavengerModeCurrentWord');
         let index = 0;
         if (value !== null) {
             index = parseInt(value);
-            // index = (index + 1) % vocabDictionary.Dictionary.length
-            index = Math.floor(Math.random()*vocabDictionary.Dictionary.length)
-            await AsyncStorage.setItem('ScavengerModeCurerntWord', index.toString())
+            // index = (index + 1) % vocabDictionary.DictionarySpanishSpanish.length
+            index = Math.floor(Math.random()*vocabDictionary.DictionarySpanish.length)
         } else {
             await this.getCurrentWord();
         }
+        this.setState({previousWordIndex: value});
+        await AsyncStorage.setItem('ScavengerModeCurrentWord', index.toString());
         return index;
     }
 
-    handleCameraClick = async () =>  {
-        result = getPermsAsync();
-        let response = await takePhotoAsync();
-        console.log(response);
-        this.setState({
-            cameraEnabled: false,
-            result: true,
-        });
+    incrementScore = async () => {
+        let value = await this.getScore();
+        value++;
+        this.setState({score: value});
+        await AsyncStorage.setItem('ScavengerModeScore', value.toString());
+    }
+
+    handleNextButton () {
+        this.setState({correct: false});
+    }
+
+    handleCameraClick = async () => {
+        try {
+            result = getPermsAsync();
+            setTimeout(()=>this.setState({loading: true}, () => this.spin()), 1000);
+            let response = await takePhotoAsync();
+            if (response !== 0){
+                console.log(response.data);
+                let currentWord = await this.getCurrentWord();
+                console.log(currentWord);
+                if (response.data.toUpperCase().includes(currentWord.toUpperCase())){
+                    await this.incrementScore();
+                    let index = await this.incrementCurrentWord();
+                    this.setState({
+                        loading: false,
+                        correct: true,
+                        currentWord: vocabDictionary.DictionarySpanish[index],
+                    })
+                } else {
+                    this.setState({
+                        loading: false,
+                        incorrect: true,
+                    });
+                }
+            } else {
+                this.setState({loading: false});
+                return;
+            }
+        } catch(error){
+            alert(error);
+        };
+
+
     };
 
+    spin = () => {
+        this.spinValue.setValue(0);
+        Animated.timing(
+            this.spinValue,
+            {
+                toValue: 1,
+                duration: 1000,
+                easing: Easing.linear,
+                useNativeDriver: true
+            }
+        ).start(() => this.spin());
+    };
+
+
     render() {
-        let result;
+        const rotate = this.spinValue.interpolate({inputRange: [0, 1], outputRange: ['0deg', '360deg']})
         let screen = (
             <ScrollView style={styles.container}>
             <CardScroll>
@@ -152,21 +208,43 @@ export default class ScavengerMode extends React.Component {
             </View>
         </ScrollView>
         );
-       if (this.state.cameraEnabled === true) {
-            screen
-
-            };
-        if (this.state.result === true) {
+        if (this.state.loading) {
+            screen = (
+                <ScrollView style={styles.container}>
+                    <View style={styles.containerLoading}>
+                        <Animated.View style={{transform: [{rotate}]}}>
+                            <FontAwesome name="spinner" size={100} style={styles.Loading} spin/>
+                        </Animated.View>
+                    </View>
+                </ScrollView>
+            )
+        };
+        if (this.state.correct) {
+            screen = (
+                <ScrollView style={styles.container}>
+                    <CardScroll>
+                        <FontAwesome name="check" size={60} style={styles.Check} />
+                        <Text style={styles.TileHeaderText}> Correct </Text>
+                        <Text style={styles.CurrentWord}> {vocabDictionary.DictionarySpanish[this.state.previousWordIndex]} translates to {vocabDictionary.DictionaryEnglish[this.state.previousWordIndex]} </Text>
+                        <Text style={styles.CurrentWord}> Total points: {this.state.score}</Text>
+                    </CardScroll>
+                    <View style={styles.Options}>
+                        <ButtonNextWord clickHandler = {this.handleNextButton}/>
+                    </View>
+                </ScrollView>
+            )
+        };
+        if (this.state.incorrect) {
             screen = (
                 <ScrollView style={styles.container}>
                     <Card>
-                        <FontAwesome name="check" size={60} style={styles.Check} />
-                        <Text style={styles.TileHeaderText}> Correct </Text>
+                        <FontAwesome name="times-circle" size={60} style={styles.Check} />
+                        <Text style={styles.TileHeaderText}> Try Again </Text>
                     </Card>
                     <View style={styles.Options}>
-                    <ButtonCamera clickHandler = {this.handleCameraClick}/>
-                    <ButtonSkip clickHandler = {this.handleSkipClick}/>
-                </View>
+                        <ButtonCamera clickHandler = {this.handleCameraClick}/>
+                        <ButtonSkip clickHandler = {this.handleSkipClick}/>
+                    </View>
                 </ScrollView>
             )
         };
@@ -194,7 +272,7 @@ async function takePhotoAsync(){
      });
 
     if (result.cancelled) {
-        return;
+        return 0;
     }
     let localUri = result.uri;
     let filename = localUri.split('/').pop();
@@ -209,13 +287,14 @@ async function takePhotoAsync(){
     // Assume "photo" is the name of the form field the server expects
     formData.append('photo', { uri: localUri, name: filename, type });
 
-    return await fetch('http://aafa934d.ngrok.io/post', {
-        method: 'POST',
-        body: formData,
-        header: {
+    return axios({
+        method: 'post',
+        url: 'http://b8cbabfd.ngrok.io/post',
+        data: formData,
+        headers: {
             'contentt-type': 'multipart/form-data',
         },
-    });
+      });
 
 }
 
@@ -271,5 +350,13 @@ const styles =  StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center'
+    },
+    containerLoading: {
+        alignItems: 'center',
+    },
+    Loading: {
+        margin: 40,
+        padding: 10,
+        color: 'rgba(102,180,32, 1)',
     }
 });
