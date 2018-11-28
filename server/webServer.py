@@ -23,8 +23,11 @@ def post():
     img =request.files['photo'].read()
     img = cv2.imdecode(np.fromstring(img, dtype=np.uint8), -1)
     resized_image = cv2.resize(img, (224,224))
-    GL= NN.clean_classify_one_image(resized_image)
-    return str(GL)
+    labels = NN.clean_classify_one_image(resized_image)
+    print(labels)
+    if len(labels[0]) == 0 and len(labels[1]) == 0:
+        labels = ""
+    return str(labels)
 
 
 app.run( host='localhost', port = 4041 )
