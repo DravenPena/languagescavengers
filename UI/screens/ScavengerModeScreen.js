@@ -289,7 +289,7 @@ async function takePhotoAsync(){
 
     return axios({
         method: 'post',
-        url: 'http://b8cbabfd.ngrok.io/post',
+        url: 'http://b4b1e301.ngrok.io/post',
         data: formData,
         headers: {
             'contentt-type': 'multipart/form-data',

@@ -24,6 +24,8 @@ def post():
     resized_image = cv2.resize(img, (224,224))
     labels = NN.clean_classify_one_image(resized_image)
     print(labels)
+    if len(labels[0]) == 0 and len(labels[1]) == 0:
+        labels = ""
     return str(labels)
 
 
