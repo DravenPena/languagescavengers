@@ -35,13 +35,21 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
     var _ButtonSkip2 = _interopRequireDefault(_ButtonSkip);
 
-    var _Card = _require(_dependencyMap[8], "../components/Card");
+    var _ButtonNextWord = _require(_dependencyMap[8], "../components/ButtonNextWord");
+
+    var _ButtonNextWord2 = _interopRequireDefault(_ButtonNextWord);
+
+    var _Card = _require(_dependencyMap[9], "../components/Card");
 
     var _Card2 = _interopRequireDefault(_Card);
 
-    var _vocabDictionary = _require(_dependencyMap[9], "../data/vocabDictionary");
+    var _vocabDictionary = _require(_dependencyMap[10], "../data/vocabDictionary");
 
     var _vocabDictionary2 = _interopRequireDefault(_vocabDictionary);
+
+    var _axios = _require(_dependencyMap[11], "axios");
+
+    var _axios2 = _interopRequireDefault(_axios);
 
     function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -128,7 +136,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     break;
                                 }
 
-                                return _context2.abrupt("return", value);
+                                return _context2.abrupt("return", parseInt(value));
 
                             case 8:
                                 _context2.next = 10;
@@ -144,7 +152,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             case 13:
                                 _context2.prev = 13;
                                 _context2.t0 = _context2["catch"](0);
-                                alert("here");
+                                alert(_context2.t0);
                                 return _context2.abrupt("return");
 
                             case 17:
@@ -156,7 +164,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             };
 
             _this.getCurrentWord = function _callee3() {
-                var value, word;
+                var value, index, word;
                 return regeneratorRuntime.async(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -169,48 +177,56 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 value = _context3.sent;
 
                                 if (!(value !== null)) {
-                                    _context3.next = 8;
+                                    _context3.next = 9;
                                     break;
                                 }
 
-                                return _context3.abrupt("return", value);
+                                index = parseInt(value);
+                                return _context3.abrupt("return", _vocabDictionary2.default.DictionarySpanish[index]);
 
-                            case 8:
-                                word = _vocabDictionary2.default.Dictionary[0];
-                                _context3.next = 11;
-                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookCurrentWord', word));
-
-                            case 11:
-                                return _context3.abrupt("return", word);
+                            case 9:
+                                word = _vocabDictionary2.default.DictionarySpanish[0];
+                                _context3.next = 12;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('ScavengerModeCurrentWord', '0'));
 
                             case 12:
-                                _context3.next = 18;
+                                return _context3.abrupt("return", word);
+
+                            case 13:
+                                _context3.next = 19;
                                 break;
 
-                            case 14:
-                                _context3.prev = 14;
+                            case 15:
+                                _context3.prev = 15;
                                 _context3.t0 = _context3["catch"](0);
                                 alert(_context3.t0);
                                 return _context3.abrupt("return");
 
-                            case 18:
+                            case 19:
                             case "end":
                                 return _context3.stop();
                         }
                     }
-                }, null, _this2, [[0, 14]]);
+                }, null, _this2, [[0, 15]]);
             };
 
             _this.handleSkipClick = function _callee4() {
+                var index;
                 return regeneratorRuntime.async(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
+                                _context4.next = 2;
+                                return regeneratorRuntime.awrap(_this.incrementCurrentWord());
+
+                            case 2:
+                                index = _context4.sent;
+
                                 _this.setState({
-                                    currentWord: 'Silla'
+                                    currentWord: _vocabDictionary2.default.DictionarySpanish[index]
                                 });
 
-                            case 1:
+                            case 4:
                             case "end":
                                 return _context4.stop();
                         }
@@ -218,14 +234,199 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                 }, null, _this2);
             };
 
+            _this.incrementCurrentWord = function _callee5() {
+                var value, index;
+                return regeneratorRuntime.async(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                _context5.next = 2;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('ScavengerModeCurrentWord'));
+
+                            case 2:
+                                value = _context5.sent;
+                                index = 0;
+
+                                if (!(value !== null)) {
+                                    _context5.next = 9;
+                                    break;
+                                }
+
+                                index = parseInt(value);
+                                index = Math.floor(Math.random() * _vocabDictionary2.default.DictionarySpanish.length);
+                                _context5.next = 11;
+                                break;
+
+                            case 9:
+                                _context5.next = 11;
+                                return regeneratorRuntime.awrap(_this.getCurrentWord());
+
+                            case 11:
+                                _this.setState({
+                                    previousWordIndex: value
+                                });
+
+                                _context5.next = 14;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('ScavengerModeCurrentWord', index.toString()));
+
+                            case 14:
+                                return _context5.abrupt("return", index);
+
+                            case 15:
+                            case "end":
+                                return _context5.stop();
+                        }
+                    }
+                }, null, _this2);
+            };
+
+            _this.incrementScore = function _callee6() {
+                var value;
+                return regeneratorRuntime.async(function _callee6$(_context6) {
+                    while (1) {
+                        switch (_context6.prev = _context6.next) {
+                            case 0:
+                                _context6.next = 2;
+                                return regeneratorRuntime.awrap(_this.getScore());
+
+                            case 2:
+                                value = _context6.sent;
+                                value++;
+
+                                _this.setState({
+                                    score: value
+                                });
+
+                                _context6.next = 7;
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('ScavengerModeScore', value.toString()));
+
+                            case 7:
+                            case "end":
+                                return _context6.stop();
+                        }
+                    }
+                }, null, _this2);
+            };
+
+            _this.handleCameraClick = function _callee7() {
+                var response, currentWord, index;
+                return regeneratorRuntime.async(function _callee7$(_context7) {
+                    while (1) {
+                        switch (_context7.prev = _context7.next) {
+                            case 0:
+                                _context7.prev = 0;
+                                result = getPermsAsync();
+                                setTimeout(function () {
+                                    return _this.setState({
+                                        loading: true
+                                    }, function () {
+                                        return _this.spin();
+                                    });
+                                }, 1000);
+                                _context7.next = 5;
+                                return regeneratorRuntime.awrap(takePhotoAsync());
+
+                            case 5:
+                                response = _context7.sent;
+
+                                if (!(response !== 0)) {
+                                    _context7.next = 24;
+                                    break;
+                                }
+
+                                console.log(response.data);
+                                _context7.next = 10;
+                                return regeneratorRuntime.awrap(_this.getCurrentWord());
+
+                            case 10:
+                                currentWord = _context7.sent;
+                                console.log(currentWord);
+
+                                if (!response.data.toUpperCase().includes(currentWord.toUpperCase())) {
+                                    _context7.next = 21;
+                                    break;
+                                }
+
+                                _context7.next = 15;
+                                return regeneratorRuntime.awrap(_this.incrementScore());
+
+                            case 15:
+                                _context7.next = 17;
+                                return regeneratorRuntime.awrap(_this.incrementCurrentWord());
+
+                            case 17:
+                                index = _context7.sent;
+
+                                _this.setState({
+                                    loading: false,
+                                    correct: true,
+                                    currentWord: _vocabDictionary2.default.DictionarySpanish[index]
+                                });
+
+                                _context7.next = 22;
+                                break;
+
+                            case 21:
+                                _this.setState({
+                                    loading: false,
+                                    incorrect: true
+                                });
+
+                            case 22:
+                                _context7.next = 26;
+                                break;
+
+                            case 24:
+                                _this.setState({
+                                    loading: false
+                                });
+
+                                return _context7.abrupt("return");
+
+                            case 26:
+                                _context7.next = 31;
+                                break;
+
+                            case 28:
+                                _context7.prev = 28;
+                                _context7.t0 = _context7["catch"](0);
+                                alert(_context7.t0);
+
+                            case 31:
+                                ;
+
+                            case 32:
+                            case "end":
+                                return _context7.stop();
+                        }
+                    }
+                }, null, _this2, [[0, 28]]);
+            };
+
+            _this.spin = function () {
+                _this.spinValue.setValue(0);
+
+                _reactNative.Animated.timing(_this.spinValue, {
+                    toValue: 1,
+                    duration: 1000,
+                    easing: _reactNative.Easing.linear,
+                    useNativeDriver: true
+                }).start(function () {
+                    return _this.spin();
+                });
+            };
+
             _this.state = {
                 score: 0,
+                previousWordIndex: 0,
                 currentWord: '',
-                cameraEnabled: false,
-                result: false
+                correct: false,
+                incorrect: false
             };
             _this.handleCameraClick = _this.handleCameraClick.bind(_this);
             _this.handleSkipClick = _this.handleSkipClick.bind(_this);
+            _this.handleNextButton = _this.handleNextButton.bind(_this);
+            _this.spinValue = new _reactNative.Animated.Value(0);
             return _this;
         }
 
@@ -235,19 +436,19 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                 this.updateUserData();
             }
         }, {
-            key: "handleCameraClick",
-            value: function handleCameraClick() {
-                result = getPermsAsync();
-                results = takePhotoAsync();
+            key: "handleNextButton",
+            value: function handleNextButton() {
                 this.setState({
-                    cameraEnabled: false,
-                    result: true
+                    correct: false
                 });
             }
         }, {
             key: "render",
             value: function render() {
-                var result = void 0;
+                var rotate = this.spinValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '360deg']
+                });
 
                 var screen = _react3.default.createElement(
                     _reactNative.ScrollView,
@@ -255,7 +456,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         style: styles.container,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 116
+                            lineNumber: 190
                         }
                     },
                     _react3.default.createElement(
@@ -263,7 +464,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 117
+                                lineNumber: 191
                             }
                         },
                         _react3.default.createElement(
@@ -272,7 +473,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Header,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 118
+                                    lineNumber: 192
                                 }
                             },
                             _react3.default.createElement(_vectorIcons.FontAwesome, {
@@ -281,7 +482,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.MagnifyingGlass,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 119
+                                    lineNumber: 193
                                 }
                             }),
                             _react3.default.createElement(
@@ -290,7 +491,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.TileHeaderText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 120
+                                        lineNumber: 194
                                     }
                                 },
                                 " Scavenger Mode "
@@ -302,7 +503,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.SubHeader,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 122
+                                    lineNumber: 196
                                 }
                             },
                             _react3.default.createElement(
@@ -311,7 +512,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.SubText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 123
+                                        lineNumber: 197
                                     }
                                 },
                                 " Overall Score: "
@@ -322,7 +523,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.CurrentWord,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 124
+                                        lineNumber: 198
                                     }
                                 },
                                 " ",
@@ -336,7 +537,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.SubHeader,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 126
+                                    lineNumber: 200
                                 }
                             },
                             _react3.default.createElement(
@@ -345,7 +546,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.SubText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 127
+                                        lineNumber: 201
                                     }
                                 },
                                 " Current Word: "
@@ -356,7 +557,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.CurrentWord,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 128
+                                        lineNumber: 202
                                     }
                                 },
                                 " ",
@@ -371,48 +572,91 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             style: styles.Options,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 131
+                                lineNumber: 205
                             }
                         },
                         _react3.default.createElement(_ButtonCamera2.default, {
                             clickHandler: this.handleCameraClick,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 132
+                                lineNumber: 206
                             }
                         }),
                         _react3.default.createElement(_ButtonSkip2.default, {
                             clickHandler: this.handleSkipClick,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 133
+                                lineNumber: 207
                             }
                         })
                     )
                 );
 
-                if (this.state.cameraEnabled === true) {
-                    screen;
-                }
-
-                ;
-
-                if (this.state.result === true) {
+                if (this.state.loading) {
                     screen = _react3.default.createElement(
                         _reactNative.ScrollView,
                         {
                             style: styles.container,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 143
+                                lineNumber: 213
                             }
                         },
                         _react3.default.createElement(
-                            _Card2.default,
+                            _reactNative.View,
+                            {
+                                style: styles.containerLoading,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 214
+                                }
+                            },
+                            _react3.default.createElement(
+                                _reactNative.Animated.View,
+                                {
+                                    style: {
+                                        transform: [{
+                                            rotate: rotate
+                                        }]
+                                    },
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 215
+                                    }
+                                },
+                                _react3.default.createElement(_vectorIcons.FontAwesome, {
+                                    name: "spinner",
+                                    size: 100,
+                                    style: styles.Loading,
+                                    spin: true,
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 216
+                                    }
+                                })
+                            )
+                        )
+                    );
+                }
+
+                ;
+
+                if (this.state.correct) {
+                    screen = _react3.default.createElement(
+                        _reactNative.ScrollView,
+                        {
+                            style: styles.container,
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 224
+                            }
+                        },
+                        _react3.default.createElement(
+                            _CardScroll2.default,
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 144
+                                    lineNumber: 225
                                 }
                             },
                             _react3.default.createElement(_vectorIcons.FontAwesome, {
@@ -421,7 +665,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Check,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 145
+                                    lineNumber: 226
                                 }
                             }),
                             _react3.default.createElement(
@@ -430,10 +674,37 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.TileHeaderText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 146
+                                        lineNumber: 227
                                     }
                                 },
                                 " Correct "
+                            ),
+                            _react3.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    style: styles.CurrentWord,
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 228
+                                    }
+                                },
+                                " ",
+                                _vocabDictionary2.default.DictionarySpanish[this.state.previousWordIndex],
+                                " translates to ",
+                                _vocabDictionary2.default.DictionaryEnglish[this.state.previousWordIndex],
+                                " "
+                            ),
+                            _react3.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    style: styles.CurrentWord,
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 229
+                                    }
+                                },
+                                " Total points: ",
+                                this.state.score
                             )
                         ),
                         _react3.default.createElement(
@@ -442,21 +713,82 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.Options,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 148
+                                    lineNumber: 231
+                                }
+                            },
+                            _react3.default.createElement(_ButtonNextWord2.default, {
+                                clickHandler: this.handleNextButton,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 232
+                                }
+                            })
+                        )
+                    );
+                }
+
+                ;
+
+                if (this.state.incorrect) {
+                    screen = _react3.default.createElement(
+                        _reactNative.ScrollView,
+                        {
+                            style: styles.container,
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 239
+                            }
+                        },
+                        _react3.default.createElement(
+                            _Card2.default,
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 240
+                                }
+                            },
+                            _react3.default.createElement(_vectorIcons.FontAwesome, {
+                                name: "times-circle",
+                                size: 60,
+                                style: styles.Check,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 241
+                                }
+                            }),
+                            _react3.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    style: styles.TileHeaderText,
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 242
+                                    }
+                                },
+                                " Try Again "
+                            )
+                        ),
+                        _react3.default.createElement(
+                            _reactNative.View,
+                            {
+                                style: styles.Options,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 244
                                 }
                             },
                             _react3.default.createElement(_ButtonCamera2.default, {
                                 clickHandler: this.handleCameraClick,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 149
+                                    lineNumber: 245
                                 }
                             }),
                             _react3.default.createElement(_ButtonSkip2.default, {
                                 clickHandler: this.handleSkipClick,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 150
+                                    lineNumber: 246
                                 }
                             })
                         )
@@ -478,56 +810,56 @@ __d(function (global, _require, module, exports, _dependencyMap) {
     function getPermsAsync() {
         var _ref, status;
 
-        return regeneratorRuntime.async(function getPermsAsync$(_context5) {
+        return regeneratorRuntime.async(function getPermsAsync$(_context8) {
             while (1) {
-                switch (_context5.prev = _context5.next) {
+                switch (_context8.prev = _context8.next) {
                     case 0:
-                        _context5.next = 2;
+                        _context8.next = 2;
                         return regeneratorRuntime.awrap(_expo.Permissions.askAsync(_expo.Permissions.CAMERA, _expo.Permissions.CAMERA_ROLL));
 
                     case 2:
-                        _ref = _context5.sent;
+                        _ref = _context8.sent;
                         status = _ref.status;
 
                         if (!(status === 'granted')) {
-                            _context5.next = 8;
+                            _context8.next = 8;
                             break;
                         }
 
-                        return _context5.abrupt("return", status);
+                        return _context8.abrupt("return", status);
 
                     case 8:
-                        return _context5.abrupt("return", 69);
+                        return _context8.abrupt("return", 69);
 
                     case 9:
                     case "end":
-                        return _context5.stop();
+                        return _context8.stop();
                 }
             }
         }, null, this);
     }
 
     function takePhotoAsync() {
-        var result, localUri, filename, match, type, formData, response;
-        return regeneratorRuntime.async(function takePhotoAsync$(_context6) {
+        var result, localUri, filename, match, type, formData;
+        return regeneratorRuntime.async(function takePhotoAsync$(_context9) {
             while (1) {
-                switch (_context6.prev = _context6.next) {
+                switch (_context9.prev = _context9.next) {
                     case 0:
-                        _context6.next = 2;
+                        _context9.next = 2;
                         return regeneratorRuntime.awrap(_expo.ImagePicker.launchCameraAsync({
                             allowsEditing: true,
                             aspect: [4, 3]
                         }));
 
                     case 2:
-                        result = _context6.sent;
+                        result = _context9.sent;
 
                         if (!result.cancelled) {
-                            _context6.next = 5;
+                            _context9.next = 5;
                             break;
                         }
 
-                        return _context6.abrupt("return");
+                        return _context9.abrupt("return", 0);
 
                     case 5:
                         localUri = result.uri;
@@ -540,34 +872,18 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             name: filename,
                             type: type
                         });
-                        _context6.next = 13;
-                        return regeneratorRuntime.awrap(fetch('http://fbd9ce68.ngrok.io/post', {
-                            method: 'POST',
-                            body: formData,
-                            header: {
+                        return _context9.abrupt("return", (0, _axios2.default)({
+                            method: 'post',
+                            url: 'http://8267c41d.ngrok.io/post',
+                            data: formData,
+                            headers: {
                                 'contentt-type': 'multipart/form-data'
                             }
                         }));
 
-                    case 13:
-                        response = _context6.sent;
-                        fetch('http://fbd9ce68.ngrok.io/').then(function (r) {
-                            return r.blob();
-                        }).then(function (blob) {
-                            var objectURL = URL.createObjectURL(blob);
-                            var myReader = new FileReader();
-
-                            myReader.onloadend = function (e) {
-                                console.log(myReader.result);
-                            };
-
-                            myReader.readAsText(blob);
-                        });
-                        return _context6.abrupt("return", response);
-
-                    case 16:
+                    case 12:
                     case "end":
-                        return _context6.stop();
+                        return _context9.stop();
                 }
             }
         }, null, this);
@@ -625,6 +941,14 @@ __d(function (global, _require, module, exports, _dependencyMap) {
             flexDirection: 'row',
             alignContent: 'center',
             justifyContent: 'center'
+        },
+        containerLoading: {
+            alignItems: 'center'
+        },
+        Loading: {
+            margin: 40,
+            padding: 10,
+            color: 'rgba(102,180,32, 1)'
         }
     });
 });

@@ -102,7 +102,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             case 0:
                                 _context2.prev = 0;
                                 _context2.next = 3;
-                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('WordBookScore'));
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('ScavengerModeScore'));
 
                             case 3:
                                 value = _context2.sent;
@@ -116,7 +116,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
                             case 8:
                                 _context2.next = 10;
-                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookScore', '0'));
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('ScavengerModeScore', '0'));
 
                             case 10:
                                 return _context2.abrupt("return", 0);
@@ -147,7 +147,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             case 0:
                                 _context3.prev = 0;
                                 _context3.next = 3;
-                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('WordBookCurrentWord'));
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.getItem('ScavengerModeCurrentWord'));
 
                             case 3:
                                 value = _context3.sent;
@@ -158,12 +158,12 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 }
 
                                 index = parseInt(value);
-                                return _context3.abrupt("return", _vocabDictionary2.default.Dictionary[index]);
+                                return _context3.abrupt("return", _vocabDictionary2.default.DictionarySpanish[index]);
 
                             case 9:
-                                word = _vocabDictionary2.default.Dictionary[0];
+                                word = _vocabDictionary2.default.DictionarySpanish[0];
                                 _context3.next = 12;
-                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('WordBookCurrentWord', '0'));
+                                return regeneratorRuntime.awrap(_reactNative.AsyncStorage.setItem('ScavengerModeCurrentWord', '0'));
 
                             case 12:
                                 return _context3.abrupt("return", word);

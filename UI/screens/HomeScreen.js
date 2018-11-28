@@ -12,9 +12,10 @@ import {
 import ScavengerModeTile from '../components/ScavengerModeTile';
 import WordBookTile from '../components/WordBookTile';
 import SettingTile from '../components/SettingTile';
+import DiscoveryTile from '../components/DiscoveryModeTile';
 
 export default class HomeScreen extends React.Component {
-    
+
     static navigationOptions = {
         headerTransparent: true
     };
@@ -33,6 +34,7 @@ export default class HomeScreen extends React.Component {
                     <ScavengerModeTile navigation={this.props.navigation}/>
                     <WordBookTile navigation={this.props.navigation}/>
                     <SettingTile navigation={this.props.navigation}/>
+                    <DiscoveryTile navigation={this.props.navigation}/>
                 </View>
             </ScrollView>
         )

@@ -29,6 +29,10 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
   var _VolumeScreen2 = _interopRequireDefault(_VolumeScreen);
 
+  var _DiscoveryModeScreen = _require(_dependencyMap[7], "../screens/DiscoveryModeScreen");
+
+  var _DiscoveryModeScreen2 = _interopRequireDefault(_DiscoveryModeScreen);
+
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
   var AppNavigator = (0, _reactNavigation.createStackNavigator)({
@@ -43,6 +47,9 @@ __d(function (global, _require, module, exports, _dependencyMap) {
     },
     SettingMode: {
       screen: _SettingScreen2.default
+    },
+    DiscoveryMode: {
+      screen: _DiscoveryModeScreen2.default
     },
     LanguageSelectMode: {
       screen: _LanguageSelectScreen2.default

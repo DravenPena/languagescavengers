@@ -33,6 +33,10 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
     var _SettingTile2 = _interopRequireDefault(_SettingTile);
 
+    var _DiscoveryModeTile = _require(_dependencyMap[7], "../components/DiscoveryModeTile");
+
+    var _DiscoveryModeTile2 = _interopRequireDefault(_DiscoveryModeTile);
+
     function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -78,7 +82,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         style: styles.container,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 24
+                            lineNumber: 25
                         }
                     },
                     _react3.default.createElement(
@@ -86,7 +90,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 25
+                                lineNumber: 26
                             }
                         },
                         _react3.default.createElement(
@@ -95,15 +99,15 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                 style: styles.earthcontainer,
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 26
+                                    lineNumber: 27
                                 }
                             },
                             _react3.default.createElement(_reactNative.Image, {
                                 style: styles.earth,
-                                source: _require(_dependencyMap[7], '../assets/LanguageScavengersWorld.png'),
+                                source: _require(_dependencyMap[8], '../assets/LanguageScavengersWorld.png'),
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 27
+                                    lineNumber: 28
                                 }
                             }),
                             _react3.default.createElement(
@@ -112,7 +116,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                                     style: styles.headerSubText,
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 31
+                                        lineNumber: 32
                                     }
                                 },
                                 " Let's Find New Words"
@@ -122,21 +126,28 @@ __d(function (global, _require, module, exports, _dependencyMap) {
                             navigation: this.props.navigation,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 33
+                                lineNumber: 34
                             }
                         }),
                         _react3.default.createElement(_WordBookTile2.default, {
                             navigation: this.props.navigation,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 34
+                                lineNumber: 35
                             }
                         }),
                         _react3.default.createElement(_SettingTile2.default, {
                             navigation: this.props.navigation,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 35
+                                lineNumber: 36
+                            }
+                        }),
+                        _react3.default.createElement(_DiscoveryModeTile2.default, {
+                            navigation: this.props.navigation,
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 37
                             }
                         })
                     )

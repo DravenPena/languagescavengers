@@ -7,6 +7,7 @@ import WordBookScreen from '../screens/WordBookScreen';
 import SettingScreen from '../screens/SettingScreen';
 import LanguageSelectScreen from '../screens/LanguageSelectScreen';
 import VolumeScreen from '../screens/VolumeScreen';
+import DiscoveryScreen from '../screens/DiscoveryModeScreen';
 
   const AppNavigator = createStackNavigator(
     {
@@ -21,6 +22,9 @@ import VolumeScreen from '../screens/VolumeScreen';
       },
       SettingMode: {
         screen: SettingScreen
+      },
+      DiscoveryMode: {
+        screen: DiscoveryScreen
       },
       LanguageSelectMode: {
         screen: LanguageSelectScreen
