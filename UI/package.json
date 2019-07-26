@@ -9,11 +9,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "expo": "^30.0.1",
-    "react": "16.3.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "@babel/plugin-transform-react-jsx-source": "^7.5.0",
+    "axios": "^0.18.1",
+    "core-js": "^3.1.4",
+    "expo": "^33.0.0",
+    "expo-image-picker": "~5.0.2",
+    "expo-permissions": "~5.0.1",
+    "react": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-fontawesome": "^5.7.0",
-    "react-navigation": "^2.18.0"
+    "react-navigation": "^3.11.0"
   }
 }
