@@ -4,94 +4,41 @@ import {
     Image,
     ScrollView,
     Text,
-    TouchableHighlight,
+    TouchableOpacity,
     StyleSheet,
-    AsyncStorage,
 } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import Card from './Card';
-import vocabDictionary from '../data/vocabDictionary';
 
 
 export default class DiscoveryModeTile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentWord: '',
-            score: 0
+            totalBooks: 1,
+            score: 0,
         }
     }
-
-    componentDidMount() {
-        this.updateUserData();
-    }
-
-    updateUserData = async () => {
-        let currentWord = await this.getCurrentWord();
-        let score = await this.getScore();
-        this.setState({
-            currentWord,
-            score,
-        });
-    }
-
-    getScore = async () => {
-        try {
-            const value = await AsyncStorage.getItem('DiscoveryModeScore');
-            if (value !== null) {
-              // We have data!!
-              return value;
-            } else {
-                await AsyncStorage.setItem('DiscoveryModeScore', '0');
-                return 0;
-            }
-        } catch (error) {
-            alert(error);
-            return;
-        }
-    }
-
-    getCurrentWord = async () => {
-        try {
-            const value = await AsyncStorage.getItem('DiscoveryModeCurrentWord');
-            if (value !== null){
-                let index = parseInt(value);
-                return vocabDictionary.DictionarySpanish[index];
-            } else {
-                let word = vocabDictionary.DictionarySpanish[0];
-                await AsyncStorage.setItem('DiscoveryModeCurrentWord', '0');
-                return word;
-            }
-        } catch (error) {
-            alert(error);
-            return;
-        }
-    }
-
 
     render() {
         return (
-            <TouchableHighlight
-                onPress={() => this.props.navigation.navigate('DiscoveryMode')}
-                underlayColor="white"
+            <TouchableOpacity 
+            onPress={() => this.props.navigation.navigate('DiscoveryMode')} 
+            underlayColor="white" 
             >
-                <Card>
-                    <View style={styles.Header}>
-                        <FontAwesome name="rocket" size={30} style={styles.MagnifyingGlass} />
-                        <Text style={styles.TileHeaderText}> Discovery Mode </Text>
-                    </View>
-                    <View style={styles.SubHeader}>
-                        <View style={styles.Data}>
-                            <Text style={styles.SubText}> Current Word  </Text>
-                            <Text style={styles.userData}> {this.state.currentWord} </Text>
+                <Card> 
+                    <View style={styles.container}>
+                        <View style={styles.Header}>
+                            <FontAwesome name="globe" size={30} style={styles.MagnifyingGlass} />
+                            <Text style={styles.TileHeaderText}> Discovery Mode </Text>
                         </View>
-                        <View style={styles.Data}>
-                            <Text style={styles.SubText}> Overall Score  </Text>
-                            <Text style={styles.userData}> {this.state.score} </Text>
+                        <View style={styles.SubHeader}>
+                            <Text style={styles.SubText}> Take pictures and we will tell you the </Text>
+                            <Text style={styles.SubText}> objects translation </Text>
                         </View>
                     </View>
                 </Card>
-            </TouchableHighlight>
+            </TouchableOpacity>
         )
     }
 
@@ -118,11 +65,11 @@ const styles =  StyleSheet.create({
     },
     SubHeader: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
+        padding: 10,
     },
     SubText: {
-        fontSize: 17,
-        padding: 10,
+        fontSize: 15,
         color: 'rgba(96,100,109, 1)',
         lineHeight: 24,
         textAlign: 'left',
@@ -130,7 +77,7 @@ const styles =  StyleSheet.create({
     },
     userData: {
         fontSize: 15,
-        paddingLeft: 12,
+        margin: 15,
         color: 'rgba(96,100,109, 1)',
         lineHeight: 24,
         textAlign: 'left',

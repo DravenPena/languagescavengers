@@ -4,6 +4,8 @@ import classifier
 import numpy as np
 import cv2
 import base64
+import json
+
 
 
 
@@ -21,13 +23,40 @@ def post():
     global GL
     print( 'This is the post: ', request.files['photo'] )
     img =request.files['photo'].read()
+    try:
+        vals = request.values.dicts[1].to_dict(flat=False)
+        vals = list(vals.items())[0][0]
+        print("The language is: ", vals)
+        lang = vals
+    except:
+        lang = "es"
     img = cv2.imdecode(np.fromstring(img, dtype=np.uint8), -1)
     resized_image = cv2.resize(img, (224,224))
-    labels = NN.clean_classify_one_image(resized_image)
+    labels = NN.clean_classify_one_image(resized_image, lang)
+    if (len(labels[0]) == 0):
+        labels = ''
     print(labels)
+<<<<<<< HEAD
     if len(labels[0]) == 0 and len(labels[1]) == 0:
         labels = ""
     return str(labels)
+=======
+    return str(labels).replace('"',"'")
+
+
+@app.route('/translate', methods = ["POST"])
+def translate():
+    print("hello")
+    try:
+        words = json.loads(request.data)[1:]
+        lang = json.loads(request.data)[0]
+    except:
+        words = ["Sorry"]
+        lang = "es"
+    translation = [NN.translate([elem], lang)[0] for elem in words]
+    jsonval = json.dumps({"words":words, "translation":translation})
+    return jsonval
+>>>>>>> 73abe89fa40e91df9b2932b1f770c4b23a9da08d
 
 
 app.run( host='localhost', port = 4041 )

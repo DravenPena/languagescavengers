@@ -56,7 +56,11 @@ class NN(object):
             os.remove('image/'+filenames[0])
             return names
 
+<<<<<<< HEAD
     def clean_classify_one_image(self, image, language="es"):
+=======
+    def clean_classify_one_image(self, image, language):
+>>>>>>> 73abe89fa40e91df9b2932b1f770c4b23a9da08d
         # img shape needed: (224,224,3)
         # rbgimg = rbgimg.resize((img_size, img_size), Image.ANTIALIAS)
         image = np.expand_dims(image, axis=0)
@@ -69,7 +73,11 @@ class NN(object):
                 names.append(preds[i][1])
             else:
                 break
+<<<<<<< HEAD
         translation = self.translate(names,language)
+=======
+        translation = self.translate(names, language)
+>>>>>>> 73abe89fa40e91df9b2932b1f770c4b23a9da08d
         return [names, translation]
 
     def translate(self,labels, language):
@@ -83,9 +91,18 @@ class NN(object):
                 text = labels[i]
                 blob = textblob.TextBlob(text)
                 value = blob.translate(to=language)
+<<<<<<< HEAD
             except textblob.exceptions.NotTranslated:
                 value = text
             translation.append(value)
+=======
+                value = value.string.replace("'", "\\\'")
+                translation.append(value)
+            except textblob.exceptions.NotTranslated:
+                value = text
+                translation.append(text)
+
+>>>>>>> 73abe89fa40e91df9b2932b1f770c4b23a9da08d
         return translation
 
 

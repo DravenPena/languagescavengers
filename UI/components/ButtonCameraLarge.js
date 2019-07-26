@@ -19,7 +19,7 @@ export default class ButtonNextWord extends React.Component {
             underlayColor="white"
             >
                 <View style={styles.Button}>
-                    <Text style={styles.Next}>Next Word</Text>
+                    <FontAwesome name="camera" size={60} style={styles.Camera} />
                 </View>
             </TouchableOpacity>
         )
@@ -33,7 +33,7 @@ const styles =  StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 100,
-        width: 300,
+        width: 200,
         backgroundColor: '#78C928',
         borderRadius: 20,
         margin: 15,
@@ -42,13 +42,8 @@ const styles =  StyleSheet.create({
         shadowColor: 'grey',
         shadowOffset: { height: 8, width: 0 },
     },
-    Next: {
-        fontSize: 30,
-        paddingTop: 20,
+    Camera: {
         color: '#FFFFFF',
-        lineHeight: 24,
-        textAlign: 'left',
-        fontWeight: 'bold',
-    },
+    }
 
 });

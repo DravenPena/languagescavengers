@@ -9,17 +9,17 @@ import {
 } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
-export default class ButtonNextWord extends React.Component {
+export default class ButtonLanguage extends React.Component {
 
     render() {
         return (
             <TouchableOpacity 
             style={styles.container}
-            onPress={() => this.props.clickHandler()} 
+            onPress={() => this.props.clickHandler(code)} 
             underlayColor="white"
             >
                 <View style={styles.Button}>
-                    <Text style={styles.Next}>Next Word</Text>
+                    <Text style={styles.Next}>{this.props.language}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -32,18 +32,21 @@ const styles =  StyleSheet.create({
     Button: {
         alignItems: 'center',
         justifyContent: 'center',
-        height: 100,
+        height: 50,
         width: 300,
         backgroundColor: '#78C928',
-        borderRadius: 20,
-        margin: 15,
+        borderRadius: 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 10,
+        marginBottom: 10,
         shadowOpacity: 0.75,
         shadowRadius: 2,
         shadowColor: 'grey',
         shadowOffset: { height: 8, width: 0 },
     },
     Next: {
-        fontSize: 30,
+        fontSize: 25,
         paddingTop: 20,
         color: '#FFFFFF',
         lineHeight: 24,
